@@ -29,23 +29,7 @@ public abstract class BaseDao {
 			}
 		}
 	}
-	/**
-	 * ≤‚ ‘”√
-	 */
-//	public BaseDao()
-//	{
-//		if(connection==null){
-//			 try {
-//				Class.forName("com.mysql.jdbc.Driver");
-//				connection=DriverManager.getConnection("jdbc:mysql://localhost:3306/DrawingWebsite?useUnicode=true&characterEncoding=UTF-8"
-//						,"root"
-//						,"3574162");
-//			} catch (Exception e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+
 	public static Connection getConnection(String url,String username,String password){
 		
 		try {
