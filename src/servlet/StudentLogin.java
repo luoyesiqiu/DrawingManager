@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import dao.StudentDao;
 import util.JavascriptUtils;
+import util.MD5;
 
 /**
  * Ñ§ÉúµÇÂ¼Âß¼­
@@ -31,16 +32,16 @@ public class StudentLogin extends HttpServlet {
 		HttpSession session=request.getSession();
 		String studentId=(String)request.getParameter(STUDENT_NUMBER_KEY);
 		String password=(String)request.getParameter(STUDENT_PASSWORD_KEY);
-		if(studentDao.login(studentId, password)){
+		if(studentDao.login(studentId, MD5.encrypt(password))){
 			
 			session.setAttribute(STUDENT_NUMBER_KEY, studentId);
-			session.setAttribute(STUDENT_PASSWORD_KEY, password);
+			session.setAttribute(STUDENT_PASSWORD_KEY, MD5.encrypt(password));
 			
 			Cookie userCookie=new Cookie(STUDENT_NUMBER_KEY, studentId);
 			userCookie.setMaxAge(COOKIE_AGE);
 			response.addCookie(userCookie);
 			
-			Cookie passwordCookie=new Cookie(STUDENT_PASSWORD_KEY, password);
+			Cookie passwordCookie=new Cookie(STUDENT_PASSWORD_KEY, MD5.encrypt(password));
 			passwordCookie.setMaxAge(COOKIE_AGE);
 			response.addCookie(passwordCookie);
 			

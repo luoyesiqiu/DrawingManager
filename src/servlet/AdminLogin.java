@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.AdminDao;
+import util.MD5;
 
 /**
  * Servlet implementation class AdminLogin
@@ -38,16 +39,16 @@ public class AdminLogin extends HttpServlet {
 		String adminPassword=request.getParameter(ADMIN_PASSWORD_KEY);
 		AdminDao adminDao=new AdminDao();
 		HttpSession session=request.getSession();
-		if(adminDao.login(adminName, adminPassword)){
+		if(adminDao.login(adminName, MD5.encrypt(adminPassword))){
 			
 			session.setAttribute(ADMIN_NAME_KEY, adminName);
-			session.setAttribute(ADMIN_PASSWORD_KEY, adminPassword);
+			session.setAttribute(ADMIN_PASSWORD_KEY, MD5.encrypt(adminPassword));
 			
 			Cookie userCookie=new Cookie(ADMIN_NAME_KEY, adminName);
 			userCookie.setMaxAge(COOKIE_AGE);
 			response.addCookie(userCookie);
 			
-			Cookie passwordCookie=new Cookie(ADMIN_PASSWORD_KEY, adminPassword);
+			Cookie passwordCookie=new Cookie(ADMIN_PASSWORD_KEY, MD5.encrypt(adminPassword));
 			passwordCookie.setMaxAge(COOKIE_AGE);
 			response.addCookie(passwordCookie);
 			

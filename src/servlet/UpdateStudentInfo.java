@@ -22,6 +22,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.eclipse.jdt.internal.compiler.env.IGenericField;
 
 import dao.StudentDao;
+import util.MD5;
 
 /**
  * Servlet implementation class UpdateStudentInfo
@@ -114,7 +115,7 @@ public class UpdateStudentInfo extends HttpServlet {
 		
 		StudentDao studentDao=new StudentDao();
 		
-		if(studentOldPassword==null||studentOldPassword.equals("")||!studentDao.login(studentNumber, studentOldPassword)){
+		if(studentOldPassword==null||studentOldPassword.equals("")||!studentDao.login(studentNumber, MD5.encrypt(studentOldPassword))){
 			request.setAttribute("message", "原密码有误，修改用户信息失败");
 			if(role.equals("student")){
 				request.setAttribute("page", "StudentCenter.jsp");
@@ -131,7 +132,7 @@ public class UpdateStudentInfo extends HttpServlet {
 			studentDao.update(studentNumber, StudentDao.StudentName, studentName);
 		}
 		if(studentNewPassword!=null&&!studentNewPassword.equals("")){
-			studentDao.update(studentNumber, StudentDao.StudentPassword, studentNewPassword);
+			studentDao.update(studentNumber, StudentDao.StudentPassword, MD5.encrypt(studentNewPassword));
 		}
 		if(studentGender!=null&&!studentGender.equals("")){
 			int gender=studentGender.equals("男")?0:1;

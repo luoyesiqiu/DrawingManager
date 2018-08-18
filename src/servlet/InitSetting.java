@@ -13,6 +13,7 @@ import dao.GradeDao;
 import dao.MajorDao;
 import dao.PrizeLevelDao;
 import dao.StudentDao;
+import util.MD5;
 
 /**
  * Servlet implementation class InitSetting
@@ -42,7 +43,7 @@ public class InitSetting extends HttpServlet {
 		}
 
 		AdminDao adminDao=new AdminDao();
-		adminDao.insert(adminName, adminPwd);
+		adminDao.insert(adminName, MD5.encrypt(adminPwd));
 		processStudentMajor(studentMajor, request, response);
 		processDrawingType(drawingType, request, response);
 		processPrizeLevel(prizeLevel, request, response);

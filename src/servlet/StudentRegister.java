@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import dao.StudentDao;
 import util.JavascriptUtils;
+import util.MD5;
 
 /**
  * 注册逻辑，register.jsp文件post到此类
@@ -133,7 +134,7 @@ public class StudentRegister extends HttpServlet {
 			else{
 				isMan=true;
 			}
-			boolean isSuccess=studentDao.register(studentNumber, password, studentName, isMan, studentGrade, studentMajor, studentBirth, studentPhoto);
+			boolean isSuccess=studentDao.register(studentNumber, MD5.encrypt(password), studentName, isMan, studentGrade, studentMajor, studentBirth, studentPhoto);
 			if(isSuccess){
 				request.getSession().setAttribute("user", studentNumber);
 				request.setAttribute("message", "注册成功，3秒后跳到登录界面");
